@@ -11,7 +11,7 @@
 //Dom Elements
 let ramenDiv = document.getElementById("ramen-menu");
 let ramenDetailDiv = document.getElementById("ramen-detail");
-let ramenDetailImage = document.getElementById("detail-image");
+let ramenDetailImage = document.querySelector(".detail-image");
 let ramenDetailName = document.querySelector(".name");
 let ramenDetailRestaurant = document.querySelector(".restaurant");
 let ramenDetailRating = document.getElementById("rating-display");
@@ -24,15 +24,22 @@ function fetchRamen() {
     .then((response) => response.json())
     .then((data) => renderRamen(data));
 }
-
 function renderRamen(ramens) {
   ramens.forEach((ramen) => {
     let ramenImageDiv = document.createElement("img");
     ramenImageDiv.src = ramen.image;
     ramenDiv.appendChild(ramenImageDiv);
+
+    //event listener
+
+    ramenImageDiv.addEventListener("click", (e) => {
+      console.log(e.target.src);
+      ramenDetailImage.src = ramen.image;
+      ramenDetailName.textContent = ramen.name;
+      ramenDetailRestaurant.textContent = ramen.restaurant;
+      ramenDetailRating.textContent = ramen.rating;
+      ramenDetailComment.textContent = ramen.comment;
+    });
   });
-  //event listener
-  let ramSelectedImg = document.querySelector("img");
-  ramSelectedImg.addEventListener("click", (e) => {});
 }
 fetchRamen();
