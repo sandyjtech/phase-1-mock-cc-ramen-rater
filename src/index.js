@@ -25,6 +25,42 @@ function fetchRamen() {
     .then((response) => response.json())
     .then((data) => renderRamen(data));
 }
+function postRamen(name, restaurant, image, rating, comment) {
+    const formData = {
+      name: name,
+      restaurant: restaurant,
+      image: image,
+      rating: rating,
+      comment: comment,
+    };
+    const submitRamen = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(formData),
+      };
+      return fetch(baseUrl, submitRamen)
+      .then((response) => response.json())
+      .then((newRamen) => {
+        console.log(newRamen);
+        const id = newRamen.id;
+        let ramenNewImageDiv = document.createElement("img");
+        ramenNewImageDiv.src = newRamenImage;
+       // ramenDetailComment.textContent = newRamenComment;
+        ramenDetailName.textContent = newRamen.name;
+        ramenDetailRestaurant.textContent = newRamen.restaurant;
+        ramenDetailRating.textContent = newRamen.rating;
+        ramenDetailComment = newRamen.comment;
+        ramenImageDiv.src = newRamen.image;        
+        ramenDiv.appendChild(ramenNewImageDiv);
+
+      });
+}
+    
+
+
 function renderRamen(ramens) {
   ramens.forEach((ramen) => {
     let ramenImageDiv = document.createElement("img");
@@ -32,7 +68,6 @@ function renderRamen(ramens) {
     ramenDiv.appendChild(ramenImageDiv);
 
     //event listener
-
     ramenImageDiv.addEventListener("click", (e) => {
       console.log(e.target.src);
       ramenDetailImage.src = ramen.image;
@@ -41,24 +76,17 @@ function renderRamen(ramens) {
       ramenDetailRating.textContent = ramen.rating;
       ramenDetailComment.textContent = ramen.comment;
     });
-    //form event listener
-    ramenForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      //saving submit data
-      let newRamenName = e.target.name;
-      let newRamenRestaurant = e.target.restaurant.value;
-      let newRamenImage = e.target.image;
-      let newRamenRating = e.target.rating;
-      let newRamenComment = e.target.comment;
+  });
 
-      //posting new data to DOM
-      ramenDetailComment.textContent = newRamenComment;
-      ramenDetailName.textContent = newRamenName;
-      ramenDetailRestaurant.textContent = newRamenRestaurant;
-      ramenDetailRating.textContent = newRamenRating;
-      ramenImageDiv.src = newRamenImage;
-      ramenDiv.appendChild(ramenImageDiv);
-    });
+  //form event listener
+  ramenForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+    console.log(e.target.name.value);
+ postRamen(e.target.name.value,
+     e.target.restaurant.value,
+     e.target.image.value,
+     e.target.rating.value,
+     e.target.new-comment.value)
   });
 }
 fetchRamen();
