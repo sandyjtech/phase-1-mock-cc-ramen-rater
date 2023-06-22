@@ -86,7 +86,7 @@ function renderRamen(ramens) {
      e.target.restaurant.value,
      e.target.image.value,
      e.target.rating.value,
-     e.target.new-comment.value)
+     e.target.textarea)
   });
 }
 fetchRamen();
