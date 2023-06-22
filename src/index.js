@@ -57,16 +57,22 @@ function postRamen(name, restaurant, image, rating, comment) {
         ramenDiv.appendChild(ramenNewImageDiv);
 
       });
-}
-    
+}    
 
 
 function renderRamen(ramens) {
+    
   ramens.forEach((ramen) => {
     let ramenImageDiv = document.createElement("img");
     ramenImageDiv.src = ramen.image;
-    ramenDiv.appendChild(ramenImageDiv);
-
+    ramenDiv.appendChild(ramenImageDiv);   
+//display only first onloading image
+ramenDetailImage.src = ramen.image;
+    ramenDetailName.textContent = ramen.name;
+    ramenDetailRestaurant.textContent = ramen.restaurant;
+    ramenDetailRating.textContent = ramen.rating;
+    ramenDetailComment.textContent = ramen.comment;
+    
     //event listener
     ramenImageDiv.addEventListener("click", (e) => {
       console.log(e.target.src);
@@ -76,6 +82,7 @@ function renderRamen(ramens) {
       ramenDetailRating.textContent = ramen.rating;
       ramenDetailComment.textContent = ramen.comment;
     });
+    
   });
 
   //form event listener
